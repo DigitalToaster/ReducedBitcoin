@@ -84,8 +84,8 @@ namespace BCLog {
         TOR         = (1 <<  1),
         MEMPOOL     = (1 <<  2),
         HTTP        = (1 <<  3),
-        BENCH       = (1 <<  4),
-        ZMQ         = (1 <<  5),
+        LEVELDB     = (1 <<  4),
+        COINDB      = (1 <<  5),
         DB          = (1 <<  6),
         RPC         = (1 <<  7),
         ESTIMATEFEE = (1 <<  8),
@@ -98,9 +98,7 @@ namespace BCLog {
         PROXY       = (1 << 15),
         MEMPOOLREJ  = (1 << 16),
         LIBEVENT    = (1 << 17),
-        COINDB      = (1 << 18),
-        QT          = (1 << 19),
-        LEVELDB     = (1 << 20),
+
         ALL         = ~(uint32_t)0,
     };
 }
@@ -132,10 +130,6 @@ template<typename T, typename... Args> static inline void MarkUsed(const T& t, c
     MarkUsed(args...);
 }
 
-#ifdef USE_COVERAGE
-#define LogPrintf(...) do { MarkUsed(__VA_ARGS__); } while(0)
-#define LogPrint(category, ...) do { MarkUsed(__VA_ARGS__); } while(0)
-#else
 #define LogPrintf(...) do { \
     std::string _log_msg_; /* Unlikely name to avoid shadowing variables */ \
     try { \
@@ -152,7 +146,6 @@ template<typename T, typename... Args> static inline void MarkUsed(const T& t, c
         LogPrintf(__VA_ARGS__); \
     } \
 } while(0)
-#endif
 
 template<typename... Args>
 bool error(const char* fmt, const Args&... args)

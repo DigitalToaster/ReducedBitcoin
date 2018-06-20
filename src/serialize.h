@@ -61,7 +61,6 @@ inline T* NCONST_PTR(const T* val)
 
 /*
  * Lowest-level serialization and conversion.
- * @note Sizes of these types are verified in the tests
  */
 template<typename Stream> inline void ser_writedata8(Stream &s, uint8_t obj)
 {
